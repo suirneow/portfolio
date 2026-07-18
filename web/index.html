@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio & Blog</title>
+    <style>
+        /* --- ARCHITECTURE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-color: #f7f7f7;
+            --text-color: #111111;
+            --text-muted: #767676;
+            --border-color: #e0e0e0;
+            --font-mono: "Courier New", Courier, monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            --grid-gap: 8px;
+        }
+        body.dark-theme {
+            --bg-color: #0b0b0b;
+            --text-color: #eeeeee;
+            --text-muted: #888888;
+            --border-color: #222222;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+            padding: 3vw;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        a { color: inherit; text-decoration: none; cursor: pointer; }
+        .mono { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            display: flex; justify-content: space-between; align-items: baseline;
+            margin-bottom: 8vh; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem;
+        }
+        .logo { font-weight: 600; font-size: 14px; letter-spacing: 0.1em; }
+        nav { display: flex; gap: 2rem; }
+        .nav-link { color: var(--text-muted); transition: color 0.2s ease; }
+        .nav-link:hover, .nav-link.active { color: var(--text-color); font-weight: 500; }
+        .theme-toggle { background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; cursor: pointer; margin-left: 2rem; outline: none; }
+        .theme-toggle:hover { color: var(--text-color); }
+
+        /* --- MAIN VIEW SYSTEM --- */
+        main { min-height: 60vh; }
+        .view-section { display: none; }
+        .view-section.active-view { display: block; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- WORKS GRID --- */
+        .works-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: var(--grid-gap); }
+        @media (min-width: 600px) { .works-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .works-grid { grid-template-columns: repeat(3, 1fr); } }
+        .work-item { position: relative; background-color: var(--border-color); aspect-ratio: 4 / 3; overflow: hidden; display: block; }
+        .work-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: filter 0.5s ease, transform 0.5s ease; }
+        .work-item:hover img { filter: grayscale(0%); transform: scale(1.02); }
+        .work-info { padding: 10px 4px; display: flex; justify-content: space-between; align-items: baseline; }
+        .work-title { font-weight: 400; }
+        .work-meta { color: var(--text-muted); }
+
+        /* --- WRITING LIST --- */
+        .post-row { display: flex; flex-direction: column; border-bottom: 1px solid var(--border-color); padding: 1.5rem 0; transition: opacity 0.2s ease; }
+        @media (min-width: 600px) { .post-row { flex-direction: row; justify-content: space-between; align-items: baseline; } }
+        .post-row:hover { opacity: 0.6; }
+        .post-date { color: var(--text-muted); min-width: 120px; margin-bottom: 0.25rem; }
+        @media (min-width: 600px) { .post-date { margin-bottom: 0; } }
+        .post-title { font-size: 14px; font-weight: 400; flex-grow: 1; }
+        .post-category { color: var(--text-muted); margin-left: auto; }
+
+        /* --- INFO AREA --- */
+        .info-container { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+        @media (min-width: 768px) { .info-container { grid-template-columns: 1.5fr 1fr; } }
+        .profile-text { font-size: 15px; line-height: 1.8; max-width: 600px; }
+        .profile-text p { margin-bottom: 1.5rem; }
+        .meta-group { margin-bottom: 2.5rem; }
+        .meta-label { color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
+        .meta-list { list-style: none; }
+        .meta-list li { margin-bottom: 0.6rem; }
+        .meta-list a { border-bottom: 1px solid var(--text-muted); padding-bottom: 2px; }
+        .meta-list a:hover { border-bottom-color: var(--text-color); }
+
+        footer { margin-top: 16vh; padding-top: 2rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo mono" id="site-logo">STUDIO</div>
+        <nav>
+            <a class="nav-link active mono" onclick="switchView('works')">Works</a>
+            <a class="nav-link mono" onclick="switchView('writing')">Writing</a>
+            <a class="nav-link mono" onclick="switchView('info')">Info</a>
+            <button class="theme-toggle" onclick="toggleTheme()">[COLOR]</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 各セクションの器（中身はJavaScriptが自動生成します） -->
+        <section id="works" class="view-section active-view">
+            <div class="works-grid" id="works-container"></div>
+        </section>
+
+        <section id="writing" class="view-section">
+            <div class="writing-list" id="writing-container"></div>
+        </section>
+
+        <section id="info" class="view-section">
+            <div class="info-container">
+                <div class="profile-text" id="bio-container"></div>
+                <div class="profile-meta">
+                    <div class="meta-group">
+                        <span class="meta-label mono">Network</span>
+                        <ul class="meta-list" id="social-container"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mono">
+        <div id="footer-copy">© 2026</div>
+        <div>All rights reserved.</div>
+    </footer>
+
+    <!-- -----------------------------------------
+         DATA & CONTROLLER (ここを書き換えるだけで更新完了)
+         ----------------------------------------- -->
+    <script>
+        // ==========================================
+        // 【個人データ領域】更新したい時はここを編集してください
+        // ==========================================
+        const DATA = {
+            logo: "INDEX",
+            copyright: "© 2026 INDEX",
+            
+            // 自己紹介テキスト（pタグごとに文字列を分ける）
+            bio: [
+                "デジタル領域を中心に、実験的なビジュアル表現、インタラクティブシステム、グラフィック、ツールの研究・開発を行っています。",
+                "技術的なアプローチとクラシックな美学の境界線をシームレスに繋ぐことを目的とし、削ぎ落とされたノイズのないユーザー体験、およびプロシージャルな造形の可能性を探求しています。"
+            ],
+
+            // SNSリンク (ご指定の4つ)
+            socials: [
+                { name: "X / Twitter", url: "https://x.com" },
+                { name: "Instagram",   url: "https://instagram.com" },
+                { name: "Vimeo",       url: "https://vimeo.com" },
+                { name: "YouTube",     url: "https://youtube.com" }
+            ],
+
+            // 作品リスト（新しいものを上に足していく）
+            works: [
+                { title: "Noise Field Renderer",     type: "WebGL",   year: "2026", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80", link: "#" },
+                { title: "Void & Shadow",            type: "Photo",   year: "2026", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80", link: "#" },
+                { title: "Generative Monotone",      type: "Graphic", year: "2025", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80", link: "#" },
+                { title: "Procedural Fluid",         type: "Motion",  year: "2025", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80", link: "#" }
+            ],
+
+            // ブログ記事リスト（新しいものを上に足していく）
+            writing: [
+                { title: "Houdiniにおけるプロシージャル・モデリングの思想", category: "Technology",  date: "2026.03.12", link: "#" },
+                { title: "ミニマリズムWebサイトにおける余白の動的計算",   category: "Design Note", date: "2026.01.20", link: "#" },
+                { title: "WebGLで100万個のパーティクルを美しく制御する", category: "Code",        date: "2025.11.05", link: "#" }
+            ]
+        };
+
+        // ==========================================
+        // SYSTEM LOGIC (自動展開システム — 編集不要)
+        // ==========================================
+        function initSite() {
+            document.getElementById('site-logo').innerText = DATA.logo;
+            document.getElementById('footer-copy').innerText = DATA.copyright;
+
+            // Render Bio
+            document.getElementById('bio-container').innerHTML = DATA.bio.map(p => `<p>${p}</p>`).join('');
+
+            // Render Socials
+            document.getElementById('social-container').innerHTML = DATA.socials.map(s => 
+                `<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`
+            ).join('');
+
+            // Render Works
+            document.getElementById('works-container').innerHTML = DATA.works.map(w => `
+                <div>
+                    <a class="work-item" href="${w.link}">
+                        <img src="${w.img}" alt="${w.title}">
+                    </a>
+                    <div class="work-info">
+                        <span class="work-title">${w.title}</span>
+                        <span class="work-meta mono">${w.year} — ${w.type}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Writing
+            document.getElementById('writing-container').innerHTML = DATA.writing.map(post => `
+                <a href="${post.link}" class="post-row">
+                    <span class="post-date mono">${post.date}</span>
+                    <span class="post-title">${post.title}</span>
+                    <span class="post-category mono">${post.category}</span>
+                </a>
+            `).join('');
+        }
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active-view'));
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active-view');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick').includes(viewId)) link.classList.add('active');
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleTheme() { document.body.classList.toggle('dark-theme'); }
+
+        // 起動時にデータを展開
+        window.addEventListener('DOMContentLoaded', initSite);
+    </script>
+</body>
+</html>
