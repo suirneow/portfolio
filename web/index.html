@@ -34,7 +34,7 @@
             padding: 3vw;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        body.modal-open { overflow: hidden; } /* モーダル展開時に背景スクロールを防止 */
+        body.modal-open { overflow: hidden; }
         a { color: inherit; text-decoration: none; cursor: pointer; }
         .mono { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
 
@@ -79,7 +79,12 @@
         /* --- INFO AREA --- */
         .info-container { display: grid; grid-template-columns: 1fr; gap: 4rem; }
         @media (min-width: 768px) { .info-container { grid-template-columns: 1.5fr 1fr; } }
-        .profile-text { font-size: 15px; line-height: 1.8; max-width: 600px; }
+        
+        .profile-header { margin-bottom: 2rem; }
+        .profile-name { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+        .profile-title { font-size: 13px; color: var(--text-color); }
+        
+        .profile-text { font-size: 14px; line-height: 1.8; max-width: 600px; margin-bottom: 3rem; }
         .profile-text p { margin-bottom: 1.5rem; }
         .meta-group { margin-bottom: 2.5rem; }
         .meta-label { color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
@@ -88,11 +93,28 @@
         .meta-list a { border-bottom: 1px solid var(--text-muted); padding-bottom: 2px; }
         .meta-list a:hover { border-bottom-color: var(--text-color); }
 
+        /* CONTACT FORM */
+        .contact-section { border-top: 1px solid var(--border-color); padding-top: 2.5rem; max-width: 600px; }
+        .contact-section h4 { font-size: 13px; font-weight: 500; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .form-group input, .form-group textarea {
+            width: 100%; background: none; border: 1px solid var(--border-color);
+            padding: 0.8rem; color: var(--text-color); font-family: var(--font-sans); font-size: 13px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--text-color); }
+        .form-submit-btn {
+            background: none; border: 1px solid var(--text-color); color: var(--text-color);
+            padding: 0.7rem 2rem; font-size: 11px; cursor: pointer; transition: background-color 0.2s, color 0.2s;
+        }
+        .form-submit-btn:hover { background-color: var(--text-color); color: var(--bg-color); }
+
         footer { margin-top: 16vh; padding-top: 2rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; color: var(--text-muted); }
 
-        /* --- OVERLAY MODAL (詳細ポップアップ表示用) --- */
+        /* --- OVERLAY MODAL --- */
         .modal {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vw; height: 100vh;
             background-color: var(--modal-bg); z-index: 1000;
             display: none; justify-content: center; align-items: center;
             padding: 4vw; overflow-y: auto;
@@ -110,15 +132,14 @@
             display: grid; grid-template-columns: 1fr; gap: 2rem;
         }
         @media (min-width: 768px) {
-            .modal-content { grid-template-columns: 1.5fr 1fr; align-items: center; }
+            .modal-content { grid-template-columns: 1.3fr 1fr; align-items: center; }
         }
         
         .modal-media {
             width: 100%; background-color: var(--border-color);
-            aspect-ratio: 16 / 9; overflow: hidden; display: flex; align-items: center; justify-content: center;
+            aspect-ratio: 4 / 3; overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
-        .modal-media img { width: 100%; height: 100%; object-fit: contain; }
-        .modal-media iframe { width: 100%; height: 100%; border: none; }
+        .modal-media img { width: 100%; height: 100%; object-fit: cover; }
 
         .modal-det-title { font-size: 18px; font-weight: 500; margin-bottom: 0.5rem; }
         .modal-det-meta { color: var(--text-muted); margin-bottom: 1.5rem; display: flex; gap: 1.5rem; }
@@ -135,7 +156,7 @@
 <body>
 
     <header>
-        <div class="logo mono" id="site-logo">STUDIO</div>
+        <div class="logo mono" id="site-logo">PORTFOLIO</div>
         <nav>
             <a class="nav-link active mono" onclick="switchView('works')">Works</a>
             <a class="nav-link mono" onclick="switchView('writing')">Writing</a>
@@ -155,7 +176,39 @@
 
         <section id="info" class="view-section">
             <div class="info-container">
-                <div class="profile-text" id="bio-container"></div>
+                <div>
+                    <!-- ご指定通りの比率構成 -->
+                    <div class="profile-header">
+                        <h2 class="profile-name">suimeow / shunto takaya</h2>
+                        <div class="profile-title">Visual Designer</div>
+                    </div>
+                    
+                    <div class="profile-text" id="bio-container"></div>
+                    
+                    <!-- コンタクトフォーム（Netlify自動連携仕様） -->
+                    <div class="contact-section">
+                        <h4 class="mono">Contact / Inquiry</h4>
+                        <form name="portfolio-contact" method="POST" data-netlify="true">
+                            <!-- 通知転送用の設定（あなたのメールアドレスへ転送するための指定） -->
+                            <input type="hidden" name="to" value="shntky@proton.me">
+                            
+                            <div class="form-group">
+                                <label class="mono" for="name">Name</label>
+                                <input type="text" id="name" name="name" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label class="mono" for="email">Email</label>
+                                <input type="email" id="email" name="email" required autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="mono" for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="form-submit-btn mono">SEND MESSAGE</button>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="profile-meta">
                     <div class="meta-group">
                         <span class="meta-label mono">Network</span>
@@ -166,13 +219,13 @@
         </section>
     </main>
 
-    <!-- ポップアップモダンの器 -->
+    <!-- ポップアップモダール -->
     <div id="work-modal" class="modal" onclick="closeModal(event)">
         <button class="modal-close mono" onclick="closeModal(force=true)">[ CLOSE ]</button>
         <div class="modal-content" onclick="event.stopPropagation()">
-            <!-- 左：メディア領域（画像 or 動画） -->
+            <!-- 左：画像領域（動画リンクの場合もサムネイルがそのまま綺麗に拡大されます） -->
             <div class="modal-media" id="modal-media-target"></div>
-            <!-- 右：解説文領域 -->
+            <!-- 右：テキスト領域 -->
             <div class="modal-details">
                 <h3 class="modal-det-title" id="modal-title"></h3>
                 <div class="modal-det-meta mono">
@@ -191,16 +244,16 @@
     </footer>
 
     <!-- -----------------------------------------
-         DATA & CONTROLLER (ここを書き換えて更新)
+         DATA & CONTROLLER
          ----------------------------------------- -->
     <script>
         const DATA = {
-            logo: "INDEX",
-            copyright: "© 2026 INDEX",
+            logo: "PORTFOLIO",
+            copyright: "© 2026 suimeow",
             
             bio: [
-                "映像作家、ヴィジュアルデザイナー。",
-                "領域横断的な手法と都市性をテーマに作品を制作。"
+                "デジタル領域を中心に、実験的なビジュアル表現、インタラクティブシステム、グラフィック、ツールの研究・開発を行っています。",
+                "技術的なアプローチとクラシックな美学の境界線をシームレスに繋ぐことを目的とし、削ぎ落とされたノイズのないユーザー体験、およびプロシージャルな造形の可能性を探求しています。"
             ],
 
             socials: [
@@ -211,10 +264,8 @@
             ],
 
             // ========================================================
-            // 【作品データ設定のルール】
-            // videoType: "youtube" または "vimeo" を指定すると自動で動画プレイヤーになります。画像の場合は書かなくてOK。
-            // videoId: 各動画サービスの一意のID（URLの末尾などの英数字）を入力します。
-            // description: 改行を入れたい場合は \n を使ってください。
+            // 【作品データ設定】
+            // platformName: ボタンの表記テキストを自由に変更できます (例: "X", "YouTube", "Vimeo", "Instagram" など)
             // ========================================================
             works: [
                 { 
@@ -222,26 +273,25 @@
                     type: "WebGL / Motion",   
                     date: "2026.03.15", 
                     img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80", 
-                    videoType: "youtube",
-                    videoId: "dQw4w9WgXcQ", // YouTubeの動画IDを入れる
+                    platformName: "YouTube",
                     description: "WebGLとカスタムシェーダーを用いたリアルタイム流体シミュレーションのプロトタイプ。\nベクターフィールドの数式ベースの制御により、有機的かつ緻密なノイズ表現を可能にしている。",
-                    link: "https://youtube.com" // ボタンの飛び先 (YouTube / Vimeo / Twitter / Instagram など)
+                    link: "https://youtube.com"
                 },
                 { 
                     title: "Void & Shadow Architecture",            
                     type: "Photo",   
                     date: "2026.01.10", 
                     img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80", 
+                    platformName: "Instagram",
                     description: "日本のモダニズム建築における陰影の階調を捉えたフォトシリーズ。\n自然光がコンクリートに落とす極限のコントラストをミニマルな構図に収めている。",
                     link: "https://instagram.com" 
                 },
                 { 
                     title: "Procedural Fluid System",         
-                    type: "Houdini / Vimeo",  
+                    type: "Houdini / Simulation",  
                     date: "2025.12.05", 
                     img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80", 
-                    videoType: "vimeo",
-                    videoId: "76979871", // Vimeoの動画IDを入れる
+                    platformName: "Vimeo",
                     description: "Houdiniを用いて構築した高精度な流体ダイナミクスのアートワーク。ノイズ関数を何層にも重ねることで、幾何学的でありながら混沌とした挙動を生み出している。",
                     link: "https://vimeo.com" 
                 }
@@ -253,16 +303,12 @@
             ]
         };
 
-        // ==========================================
-        // SYSTEM LOGIC (自動生成 & モーダル制御)
-        // ==========================================
         function initSite() {
             document.getElementById('site-logo').innerText = DATA.logo;
             document.getElementById('footer-copy').innerText = DATA.copyright;
             document.getElementById('bio-container').innerHTML = DATA.bio.map(p => `<p>${p}</p>`).join('');
             document.getElementById('social-container').innerHTML = DATA.socials.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`).join('');
 
-            // Worksの生成（クリックイベントにインデックス番号を渡す）
             document.getElementById('works-container').innerHTML = DATA.works.map((w, index) => `
                 <div>
                     <div class="work-item" onclick="openModal(${index})">
@@ -270,7 +316,7 @@
                     </div>
                     <div class="work-info">
                         <span class="work-title"><a onclick="openModal(${index})">${w.title}</a></span>
-                        <span class="work-meta mono">${w.date.substring(0,4)} — ${w.type.split('/')[0].trim()}</span>
+                        <span class="work-meta mono">${w.date}</span>
                     </div>
                 </div>
             `).join('');
@@ -284,7 +330,6 @@
             `).join('');
         }
 
-        // モーダルを開く処理
         function openModal(index) {
             const item = DATA.works[index];
             if (!item) return;
@@ -294,42 +339,30 @@
             document.getElementById('modal-type').innerText = item.type;
             document.getElementById('modal-desc').innerText = item.description || "";
             
-            // ボタンの出し分けとテキスト調整
             const linkBtn = document.getElementById('modal-link-btn');
             if (item.link && item.link !== "#") {
                 linkBtn.style.display = "inline-block";
                 linkBtn.href = item.link;
-                if(item.videoType) {
-                    linkBtn.innerText = item.videoType === "youtube" ? "WATCH ON YOUTUBE" : "WATCH ON VIMEO";
-                } else {
-                    linkBtn.innerText = item.link.includes("instagram") ? "VIEW ON INSTAGRAM" : "VIEW ON PLATFORM";
-                }
+                const platform = item.platformName ? item.platformName.toUpperCase() : "PLATFORM";
+                linkBtn.innerText = `VIEW ON ${platform}`;
             } else {
                 linkBtn.style.display = "none";
             }
 
-            // メディア（画像 or 動画）の埋め込み判定
+            // 動画埋め込みではなく、純粋に画像を大きく表示する処理に変更
             const mediaTarget = document.getElementById('modal-media-target');
-            if (item.videoType === "youtube" && item.videoId) {
-                mediaTarget.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.videoId}?autoplay=0" allowfullscreen></iframe>`;
-            } else if (item.videoType === "vimeo" && item.videoId) {
-                mediaTarget.innerHTML = `<iframe src="https://player.vimeo.com/video/${item.videoId}" allowfullscreen></iframe>`;
-            } else {
-                mediaTarget.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
-            }
+            mediaTarget.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
 
             const modal = document.getElementById('work-modal');
             modal.classList.add('modal-active');
             document.body.classList.add('modal-open');
         }
 
-        // モーダルを閉じる処理
         function closeModal(event, force = false) {
             if (force || event.target.id === 'work-modal') {
                 const modal = document.getElementById('work-modal');
                 modal.classList.remove('modal-active');
                 document.body.classList.remove('modal-open');
-                document.getElementById('modal-media-target').innerHTML = ""; // 動画再生を止めるために中身をクリア
             }
         }
 
