@@ -82,7 +82,8 @@
         
         .profile-header { margin-bottom: 2rem; }
         .profile-name { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
-        .profile-title { font-size: 13px; color: var(--text-color); }
+        /* 👇 反転アニメーションが他のコンテンツと同期するように transition を追加 */
+        .profile-title { font-size: 13px; color: var(--text-color); transition: color 0.3s ease; }
         
         .profile-text { font-size: 14px; line-height: 1.8; max-width: 600px; margin-bottom: 3rem; }
         .profile-text p { margin-bottom: 1.5rem; }
@@ -95,16 +96,18 @@
 
         /* --- OVERLAY MODAL --- */
         .modal {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--modal-bg); z-index: 1000;
             display: none; justify-content: center; align-items: center;
             padding: 4vw; overflow-y: auto;
+            transition: background-color 0.3s ease;
         }
         .modal.modal-active { display: flex; animation: fadeIn 0.3s ease both; }
         .modal-close {
             position: fixed; top: 3vw; right: 3vw; background: none; border: none;
             color: var(--text-color); font-family: var(--font-mono); font-size: 12px;
             cursor: pointer; z-index: 1010; outline: none;
+            transition: color 0.3s ease;
         }
         .modal-close:hover { color: var(--text-muted); }
         
@@ -158,15 +161,12 @@
         <section id="info" class="view-section">
             <div class="info-container">
                 <div>
-                    <!-- ご指定通りの比率構成 -->
                     <div class="profile-header">
                         <h2 class="profile-name">suimeow / shunto takaya</h2>
                         <div class="profile-title">Visual Designer</div>
                     </div>
                     
                     <div class="profile-text" id="bio-container"></div>
-                    
-
                 </div>
 
                 <div class="profile-meta">
@@ -179,11 +179,12 @@
         </section>
     </main>
 
-    <!-- ポップアップモダール -->
-    <div id="work-modal" class="modal" onclick="closeModal(event)">
-        <button class="modal-close mono" onclick="closeModal(force=true)">[ CLOSE ]</button>
+    <!-- ポップアップモダール（外側クリックで閉じる処理を変更） -->
+    <div id="work-modal" class="modal" onclick="closeModal(event, false)">
+        <!-- 👇 CLOSEボタンクリックの引数を修正 -->
+        <button class="modal-close mono" onclick="closeModal(null, true)">[ CLOSE ]</button>
         <div class="modal-content" onclick="event.stopPropagation()">
-            <!-- 左：画像領域（動画リンクの場合もサムネイルがそのまま綺麗に拡大されます） -->
+            <!-- 左：画像領域 -->
             <div class="modal-media" id="modal-media-target"></div>
             <!-- 右：テキスト領域 -->
             <div class="modal-details">
@@ -222,10 +223,6 @@
                 { name: "YouTube",     url: "https://www.youtube.com/@suirneow" }
             ],
 
-            // ========================================================
-            // 【作品データ設定】
-            // platformName: ボタンの表記テキストを自由に変更できます (例: "X", "YouTube", "Vimeo", "Instagram" など)
-            // ========================================================
             works: [
                 { 
                     title: "Camouflaged",     
@@ -236,7 +233,6 @@
                     description: "都市における「広告募集」のポスターの虚構性について表現したVFX作品。",
                     link: "https://vimeo.com/1195011631?share=copy&fl=sv&fe=ci"
                 },
-                
                 { 
                     title: "entropy",     
                     type: "University / Motion",   
@@ -308,7 +304,6 @@
                 linkBtn.style.display = "none";
             }
 
-            // 動画埋め込みではなく、純粋に画像を大きく表示する処理に変更
             const mediaTarget = document.getElementById('modal-media-target');
             mediaTarget.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
 
@@ -317,14 +312,14 @@
             document.body.classList.add('modal-open');
         }
 
+        // 👇 判定ロジックのエラーをきれいに修正しました
         function closeModal(event, force = false) {
-            if (force || event.target.id === 'work-modal') {
+            if (force || (event && event.target.id === 'work-modal')) {
                 const modal = document.getElementById('work-modal');
                 modal.classList.remove('modal-active');
                 document.body.classList.remove('modal-open');
             }
         }
-});
 
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active-view'));
