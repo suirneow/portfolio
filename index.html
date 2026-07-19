@@ -168,7 +168,23 @@
             width: 100%; background-color: var(--border-color);
             aspect-ratio: 4 / 3; overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
-        .modal-media img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* モーダル画像ホバー時のエフェクト設定（タップ可能であることを示す） */
+        .modal-media a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.25s ease;
+        }
+        .modal-media a:hover {
+            opacity: 0.82;
+        }
+        .modal-media img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block;
+        }
 
         .modal-det-title { font-size: 18px; font-weight: 500; margin-bottom: 0.5rem; }
         .modal-det-meta { color: var(--text-muted); margin-bottom: 1.5rem; display: flex; gap: 1.5rem; }
@@ -227,6 +243,7 @@
     <div id="work-modal" class="modal" onclick="closeModal(event, false)">
         <button class="modal-close mono" onclick="closeModal(null, true)">[ CLOSE ]</button>
         <div class="modal-content" onclick="event.stopPropagation()">
+            <!-- クリック/タップでリンク先へ遷移可能なメディアコンテナ -->
             <div class="modal-media" id="modal-media-target"></div>
             <div class="modal-details">
                 <h3 class="modal-det-title" id="modal-title"></h3>
@@ -291,7 +308,6 @@
                     description: "都市における「広告募集」のポスターの虚構性について表現したVFX作品。",
                     link: "https://vimeo.com/1195011631?share=copy&fl=sv&fe=ci"
                 },
-
             ],
 
             writing: [
@@ -300,7 +316,7 @@
         };
 
         function initSite() {
-            // 👇 相手のデバイスがダークモード設定なら最初からダークテーマを適用する
+            // デバイス設定に基づく初期テーマ適用
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.body.classList.add('dark-theme');
             }
@@ -350,8 +366,17 @@
                 linkBtn.style.display = "none";
             }
 
+            // モーダル内の画像をリンクタグで囲い、指定リンクにジャンプできるように実装
             const mediaTarget = document.getElementById('modal-media-target');
-            mediaTarget.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
+            if (item.link && item.link !== "#") {
+                mediaTarget.innerHTML = `
+                    <a href="${item.link}" target="_blank" rel="noopener">
+                        <img src="${item.img}" alt="${item.title}">
+                    </a>
+                `;
+            } else {
+                mediaTarget.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
+            }
 
             const modal = document.getElementById('work-modal');
             modal.classList.add('modal-active');
@@ -378,7 +403,10 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleTheme() { document.body.classList.toggle('dark-theme'); }
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-theme'); 
+        }
+
         window.addEventListener('DOMContentLoaded', initSite);
     </script>
 </body>
