@@ -317,13 +317,24 @@
             document.body.classList.add('modal-open');
         }
 
-        function closeModal(event, force = false) {
-            if (force || event.target.id === 'work-modal') {
-                const modal = document.getElementById('work-modal');
-                modal.classList.remove('modal-active');
-                document.body.classList.remove('modal-open');
+        // モーダルを閉じる関数
+        function closeModal() {
+            const modal = document.getElementById("works-modal"); // ※ID名は実際のものに合わせる
+            if (modal) {
+                modal.classList.remove("active"); // または modal.style.display = 'none';
             }
         }
+
+// ページ読み込み時のイベント登録
+document.addEventListener("DOMContentLoaded", () => {
+    // 既存のコード...
+
+    // 👇 Closeボタン（.close-btn や #modal-close など）をクリックした時のイベントを追加
+    const closeBtn = document.querySelector(".close-modal") || document.getElementById("modal-close");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeModal);
+    }
+});
 
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active-view'));
