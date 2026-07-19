@@ -22,16 +22,14 @@
             --font-pixel: "Geist Pixel", monospace;
             --font-body: "Inter", "Noto Sans JP", -apple-system, sans-serif;
             --grid-gap: 8px;
-            /* 👇 モーダル背景の不透明度を90%に更新 */
-            --modal-bg: rgba(247, 247, 247, 0.90);
+            --modal-bg: rgba(247, 247, 247, 0.98);
         }
         body.dark-theme {
             --bg-color: #0b0b0b;
             --text-color: #eeeeee;
             --text-muted: #888888;
             --border-color: #222222;
-            /* 👇 ダークモード時も不透明度を90%に連動 */
-            --modal-bg: rgba(11, 11, 11, 0.90);
+            --modal-bg: rgba(11, 11, 11, 0.98);
         }
         body {
             background-color: var(--bg-color);
@@ -81,11 +79,21 @@
                 align-items: center;
                 padding-bottom: 1rem;
             }
-            .logo { font-size: 16px; }
-            .sm-break { display: block; }
-            nav { gap: 0.8rem; }
-            .theme-toggle { margin-left: 0.5rem; }
-            .mono, .theme-toggle { font-size: 10px; }
+            .logo {
+                font-size: 16px;
+            }
+            .sm-break {
+                display: block;
+            }
+            nav {
+                gap: 0.8rem;
+            }
+            .theme-toggle {
+                margin-left: 0.5rem;
+            }
+            .mono, .theme-toggle {
+                font-size: 10px;
+            }
         }
 
         /* --- MAIN VIEW SYSTEM --- */
@@ -137,7 +145,6 @@
             background-color: var(--modal-bg); z-index: 1000;
             display: none; justify-content: center; align-items: center;
             padding: 4vw; overflow-y: auto;
-            backdrop-filter: blur(4px);
             transition: background-color 0.3s ease;
         }
         .modal.modal-active { display: flex; animation: fadeIn 0.3s ease both; }
@@ -157,15 +164,27 @@
             .modal-content { grid-template-columns: 1.3fr 1fr; align-items: center; }
         }
         
-        .modal-media-link {
-            display: block; width: 100%; background-color: var(--border-color);
-            aspect-ratio: 4 / 3; overflow: hidden;
-            transition: opacity 0.2s ease;
+        .modal-media {
+            width: 100%; background-color: var(--border-color);
+            aspect-ratio: 4 / 3; overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
-        .modal-media-link:hover {
-            opacity: 0.85;
+        
+        /* モーダル画像ホバー時のエフェクト設定（タップ可能であることを示す） */
+        .modal-media a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.25s ease;
         }
-        .modal-media-link img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-media a:hover {
+            opacity: 0.82;
+        }
+        .modal-media img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block;
+        }
 
         .modal-det-title { font-size: 18px; font-weight: 500; margin-bottom: 0.5rem; }
         .modal-det-meta { color: var(--text-muted); margin-bottom: 1.5rem; display: flex; gap: 1.5rem; }
@@ -177,12 +196,6 @@
             transition: background-color 0.2s, color 0.2s;
         }
         .modal-btn:hover { background-color: var(--text-color); color: var(--bg-color); }
-        
-        footer {
-            margin-top: 8vh; border-top: 1px solid var(--border-color); padding-top: 1.5rem;
-            display: flex; justify-content: space-between; align-items: baseline;
-            color: var(--text-muted);
-        }
     </style>
 </head>
 <body>
@@ -219,6 +232,12 @@
 
                 <div class="profile-meta">
                     <div class="meta-group">
+                        <span class="meta-label mono">Contact</span>
+                        <ul class="meta-list">
+                            <li><span id="email-text"></span></li>
+                        </ul>
+                    </div>
+                    <div class="meta-group">
                         <span class="meta-label mono">Network</span>
                         <ul class="meta-list" id="social-container"></ul>
                     </div>
@@ -230,7 +249,8 @@
     <div id="work-modal" class="modal" onclick="closeModal(event, false)">
         <button class="modal-close mono" onclick="closeModal(null, true)">[ CLOSE ]</button>
         <div class="modal-content" onclick="event.stopPropagation()">
-            <a href="#" target="_blank" rel="noopener" class="modal-media-link" id="modal-image-link"></a>
+            <!-- クリック/タップでリンク先へ遷移可能なメディアコンテナ -->
+            <div class="modal-media" id="modal-media-target"></div>
             <div class="modal-details">
                 <h3 class="modal-det-title" id="modal-title"></h3>
                 <div class="modal-det-meta mono">
@@ -252,6 +272,7 @@
         const DATA = {
             logo: "suimeow/<br class='sm-break'>shunto takaya",
             copyright: "© 2026 suimeow",
+            email: "tkyshun@proton.me",
             
             bio: [
                 "ヴィジュアルデザイナー。2005年生まれ。",
@@ -302,12 +323,16 @@
         };
 
         function initSite() {
+            // デバイス設定に基づく初期テーマ適用
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.body.classList.add('dark-theme');
             }
 
             document.getElementById('site-logo').innerHTML = DATA.logo;
             document.getElementById('footer-copy').innerText = DATA.copyright;
+            
+            document.getElementById('email-text').innerText = DATA.email;
+
             document.getElementById('bio-container').innerHTML = DATA.bio.map(p => `<p>${p}</p>`).join('');
             document.getElementById('social-container').innerHTML = DATA.socials.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`).join('');
 
@@ -341,16 +366,6 @@
             document.getElementById('modal-type').innerText = item.type;
             document.getElementById('modal-desc').innerText = item.description || "";
             
-            const imageLink = document.getElementById('modal-image-link');
-            if (item.link && item.link !== "#") {
-                imageLink.href = item.link;
-                imageLink.style.cursor = "pointer";
-            } else {
-                imageLink.removeAttribute('href');
-                imageLink.style.cursor = "default";
-            }
-            imageLink.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
-
             const linkBtn = document.getElementById('modal-link-btn');
             if (item.link && item.link !== "#") {
                 linkBtn.style.display = "inline-block";
@@ -359,6 +374,18 @@
                 linkBtn.innerText = `VIEW ON ${platform}`;
             } else {
                 linkBtn.style.display = "none";
+            }
+
+            // モーダル内の画像をリンクタグで囲い、指定リンクにジャンプできるように実装
+            const mediaTarget = document.getElementById('modal-media-target');
+            if (item.link && item.link !== "#") {
+                mediaTarget.innerHTML = `
+                    <a href="${item.link}" target="_blank" rel="noopener">
+                        <img src="${item.img}" alt="${item.title}">
+                    </a>
+                `;
+            } else {
+                mediaTarget.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
             }
 
             const modal = document.getElementById('work-modal');
