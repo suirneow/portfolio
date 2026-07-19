@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>suimeow/shunto takaya</title>
+    
+    <!-- Google Fonts から Bytesized / Geist Pixel / Inter / Noto Sans JP を一括読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bytesized&family=Geist+Pixel&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     <style>
         /* --- ARCHITECTURE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,8 +18,9 @@
             --text-color: #111111;
             --text-muted: #767676;
             --border-color: #e0e0e0;
-            --font-mono: "Courier New", Courier, monospace;
-            --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            --font-decor: "Bytesized", sans-serif;
+            --font-pixel: "Geist Pixel", monospace;
+            --font-body: "Inter", "Noto Sans JP", -apple-system, sans-serif;
             --grid-gap: 8px;
             --modal-bg: rgba(247, 247, 247, 0.98);
         }
@@ -27,7 +34,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: var(--font-sans);
+            font-family: var(--font-body);
             font-size: 13px;
             line-height: 1.6;
             letter-spacing: -0.01em;
@@ -36,19 +43,58 @@
         }
         body.modal-open { overflow: hidden; }
         a { color: inherit; text-decoration: none; cursor: pointer; }
-        .mono { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .mono { 
+            font-family: var(--font-pixel); 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+        }
 
         /* --- HEADER & NAVIGATION --- */
         header {
             display: flex; justify-content: space-between; align-items: baseline;
             margin-bottom: 8vh; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem;
+            flex-wrap: nowrap;
         }
-        .logo { font-weight: 600; font-size: 14px; letter-spacing: 0.1em; }
-        nav { display: flex; gap: 2rem; }
-        .nav-link { color: var(--text-muted); transition: color 0.2s ease; }
+        .logo { 
+            font-family: var(--font-decor);
+            font-weight: 600; 
+            font-size: 20px; 
+            letter-spacing: 0.05em; 
+            text-transform: uppercase;
+            line-height: 1.2;
+            cursor: pointer; /* 👇 ロゴの上にカーソルが乗ったときにポインターにする */
+        }
+        .sm-break { display: none; }
+
+        nav { display: flex; gap: 2rem; align-items: baseline; flex-shrink: 0; }
+        .nav-link { color: var(--text-muted); transition: color 0.2s ease; white-space: nowrap; }
         .nav-link:hover, .nav-link.active { color: var(--text-color); font-weight: 500; }
-        .theme-toggle { background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; cursor: pointer; margin-left: 2rem; outline: none; }
+        .theme-toggle { background: none; border: none; color: var(--text-muted); font-family: var(--font-pixel); font-size: 11px; cursor: pointer; margin-left: 2rem; outline: none; white-space: nowrap; }
         .theme-toggle:hover { color: var(--text-color); }
+
+        @media (max-width: 600px) {
+            header {
+                align-items: center;
+                padding-bottom: 1rem;
+            }
+            .logo {
+                font-size: 16px;
+            }
+            .sm-break {
+                display: block;
+            }
+            nav {
+                gap: 0.8rem;
+            }
+            .theme-toggle {
+                margin-left: 0.5rem;
+            }
+            .mono, .theme-toggle {
+                font-size: 10px;
+            }
+        }
 
         /* --- MAIN VIEW SYSTEM --- */
         main { min-height: 60vh; }
@@ -82,7 +128,6 @@
         
         .profile-header { margin-bottom: 2rem; }
         .profile-name { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
-        /* 👇 反転アニメーションが他のコンテンツと同期するように transition を追加 */
         .profile-title { font-size: 13px; color: var(--text-color); transition: color 0.3s ease; }
         
         .profile-text { font-size: 14px; line-height: 1.8; max-width: 600px; margin-bottom: 3rem; }
@@ -105,7 +150,7 @@
         .modal.modal-active { display: flex; animation: fadeIn 0.3s ease both; }
         .modal-close {
             position: fixed; top: 3vw; right: 3vw; background: none; border: none;
-            color: var(--text-color); font-family: var(--font-mono); font-size: 12px;
+            color: var(--text-color); font-family: var(--font-pixel); font-size: 12px;
             cursor: pointer; z-index: 1010; outline: none;
             transition: color 0.3s ease;
         }
@@ -140,7 +185,8 @@
 <body>
 
     <header>
-        <div class="logo mono" id="site-logo">PORTFOLIO</div>
+        <!-- 👇 ロゴエリアをクリックした際、Worksビューへ切り替えるように関数を設定 -->
+        <div class="logo" id="site-logo" onclick="switchView('works')">PORTFOLIO</div>
         <nav>
             <a class="nav-link active mono" onclick="switchView('works')">Works</a>
             <a class="nav-link mono" onclick="switchView('writing')">Writing</a>
@@ -179,14 +225,10 @@
         </section>
     </main>
 
-    <!-- ポップアップモダール（外側クリックで閉じる処理を変更） -->
     <div id="work-modal" class="modal" onclick="closeModal(event, false)">
-        <!-- 👇 CLOSEボタンクリックの引数を修正 -->
         <button class="modal-close mono" onclick="closeModal(null, true)">[ CLOSE ]</button>
         <div class="modal-content" onclick="event.stopPropagation()">
-            <!-- 左：画像領域 -->
             <div class="modal-media" id="modal-media-target"></div>
-            <!-- 右：テキスト領域 -->
             <div class="modal-details">
                 <h3 class="modal-det-title" id="modal-title"></h3>
                 <div class="modal-det-meta mono">
@@ -204,12 +246,9 @@
         <div>All rights reserved.</div>
     </footer>
 
-    <!-- -----------------------------------------
-         DATA & CONTROLLER
-         ----------------------------------------- -->
     <script>
         const DATA = {
-            logo: "suimeow/shunto takaya",
+            logo: "suimeow/<br class='sm-break'>shunto takaya",
             copyright: "© 2026 suimeow",
             
             bio: [
@@ -259,7 +298,7 @@
         };
 
         function initSite() {
-            document.getElementById('site-logo').innerText = DATA.logo;
+            document.getElementById('site-logo').innerHTML = DATA.logo;
             document.getElementById('footer-copy').innerText = DATA.copyright;
             document.getElementById('bio-container').innerHTML = DATA.bio.map(p => `<p>${p}</p>`).join('');
             document.getElementById('social-container').innerHTML = DATA.socials.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`).join('');
@@ -312,7 +351,6 @@
             document.body.classList.add('modal-open');
         }
 
-        // 👇 判定ロジックのエラーをきれいに修正しました
         function closeModal(event, force = false) {
             if (force || (event && event.target.id === 'work-modal')) {
                 const modal = document.getElementById('work-modal');
