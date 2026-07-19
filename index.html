@@ -64,7 +64,7 @@
             letter-spacing: 0.05em; 
             text-transform: uppercase;
             line-height: 1.2;
-            cursor: pointer; /* 👇 ロゴの上にカーソルが乗ったときにポインターにする */
+            cursor: pointer;
         }
         .sm-break { display: none; }
 
@@ -185,7 +185,6 @@
 <body>
 
     <header>
-        <!-- 👇 ロゴエリアをクリックした際、Worksビューへ切り替えるように関数を設定 -->
         <div class="logo" id="site-logo" onclick="switchView('works')">PORTFOLIO</div>
         <nav>
             <a class="nav-link active mono" onclick="switchView('works')">Works</a>
@@ -298,6 +297,11 @@
         };
 
         function initSite() {
+            // 👇 相手のデバイスがダークモード設定なら最初からダークテーマを適用する
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-theme');
+            }
+
             document.getElementById('site-logo').innerHTML = DATA.logo;
             document.getElementById('footer-copy').innerText = DATA.copyright;
             document.getElementById('bio-container').innerHTML = DATA.bio.map(p => `<p>${p}</p>`).join('');
