@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "demo-space",
+      "file": "2026/10/demo-space.json",
+      "published": true
+    },
+    {
+      "id": "demo-motion",
+      "file": "2026/10/demo-motion.json",
+      "published": true
+    },
+    {
+      "id": "demo-graphic",
+      "file": "2026/10/demo-graphic.json",
+      "published": true
+    },
+    {
+      "id": "demo-cg",
+      "file": "2025/10/demo-cg.json",
+      "published": true
+    }
+  ]
+}

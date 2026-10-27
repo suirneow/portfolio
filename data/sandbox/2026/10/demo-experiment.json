@@ -1,0 +1,12 @@
+{
+  "id": "demo-experiment",
+  "title": "Experiment — DEMO",
+  "date": "2026-10",
+  "description": "DEMO — replace with an experiment description.",
+  "thumbnail": {
+    "src": "",
+    "alt": "DEMO placeholder"
+  },
+  "media": [],
+  "published": false
+}

@@ -1,0 +1,14 @@
+ .site-header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:23px var(--pad) 21px;border-bottom:1px solid var(--line)}
+.wordmark{font-family:var(--outfit);font-size:13px;letter-spacing:.04em;white-space:nowrap}
+.wordmark span{font-family:var(--zalando);color:var(--muted);font-weight:300}
+.site-nav{display:flex;gap:clamp(12px,2vw,28px);align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.site-nav a{font-family:var(--outfit);font-size:12px;color:var(--muted);letter-spacing:.02em}
+.site-nav a[aria-current="page"]{color:var(--ink)}
+.page-main{padding:42px var(--pad) 80px;min-height:65vh}
+.page-main.narrow{max-width:920px;margin-inline:auto}
+.archive-toolbar{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:24px}
+.page-heading{margin:0 0 42px}
+.page-heading h1{font-family:var(--outfit);font-size:clamp(26px,3vw,40px);font-weight:300;line-height:1.15;margin:10px 0 0;letter-spacing:-.025em}
+.work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px;row-gap:40px}
+.site-footer{display:flex;justify-content:space-between;gap:20px;padding:18px var(--pad) 26px;border-top:1px solid var(--line);font-family:var(--outfit);font-size:11px;color:var(--muted)}
+.detail-root{min-height:78vh}

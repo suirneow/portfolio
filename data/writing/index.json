@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "demo-article-01",
+      "file": "2026/10/demo-article-01.md",
+      "published": false
+    },
+    {
+      "id": "demo-article-02",
+      "file": "2026/09/demo-article-02.md",
+      "published": false
+    }
+  ]
+}

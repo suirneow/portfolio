@@ -1,0 +1,13 @@
+@charset "UTF-8";
+:root{--paper:#fff;--ink:#222;--muted:#666;--faint:#8b8b8b;--line:#e5e5e5;--pad:clamp(16px,3.2vw,48px);--sans-jp:"Noto Sans JP",sans-serif;--outfit:"Outfit",sans-serif;--zalando:"Zalando Sans",sans-serif}
+*{box-sizing:border-box}
+html{background:var(--paper);color:var(--ink);font-size:14px;scroll-behavior:auto}
+body{margin:0;font-family:var(--sans-jp);font-weight:300;line-height:1.9;letter-spacing:.015em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+img,video{display:block;max-width:100%}
+button,input{font:inherit}
+button{color:inherit}
+::selection{background:#dedede;color:#111}
+[hidden]{display:none!important}

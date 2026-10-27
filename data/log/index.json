@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "demo-note-1",
+      "file": "2026/10/demo-note-1.md",
+      "published": true
+    },
+    {
+      "id": "demo-note-2",
+      "file": "2026/10/demo-note-2.md",
+      "published": true
+    },
+    {
+      "id": "demo-note-3",
+      "file": "2026/10/demo-note-3.md",
+      "published": true
+    },
+    {
+      "id": "demo-note-4",
+      "file": "2026/10/demo-note-4.md",
+      "published": true
+    },
+    {
+      "id": "demo-note-5",
+      "file": "2026/10/demo-note-5.md",
+      "published": true
+    },
+    {
+      "id": "demo-note-6",
+      "file": "2026/10/demo-note-6.md",
+      "published": true
+    }
+  ]
+}
