@@ -1,6 +1,6 @@
 {
-  "id": "draft-0001",
-  "title": "DRAFT",
+  "id": "demo-0001",
+  "title": "demo",
   "year": 2026,
   "date": "10",
   "genre": ["Graphics Design"],
@@ -10,13 +10,13 @@
     "technique": ["Collage","Print","Typography"],
     "software": ["Adobe Illusrlator"]
   },
-  "description": "雑誌「DRAFT」の創刊号の表紙および目次ページ等一部デザインを担当。",
+  "description": "demo",
   "thumbnail": {
     "src": "https://www.dropbox.com/scl/fi/00slti32sv194pz538ksm/IMG_20260419_121634229.jpg?rlkey=4n90a0rjq2pha3flwmqctrm7r&raw=1",
     "alt": "None"
   },
   "detail": {
-    "layout": "full",
+    "layout": "spread",
     "media": ["None"]
   },
   "process": ["None"],
