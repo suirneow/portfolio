@@ -1,0 +1,26 @@
+{
+  "id": "draft-0001",
+  "title": "DRAFT",
+  "year": 2026,
+  "date": "10",
+  "genre": ["Graphics Design"],
+  "role": ["Graphics Designer","Photographer"],
+  "caption": {
+    "screen": "A4 Magazine",
+    "technique": ["Collage","Typography","Photograph"],
+    "software": ["Illustlator","Lightroom"]
+  },
+  "description": "学外雑誌企画「DRAFT」にて、表紙および一部ページのデザインを担当。「武蔵野美術大学を特集する」というテーマのもと、美大という場所、そしてムサビとはどのような場所なのかを考察し、その要素を可能な限り詰め込むことを試みた。\n\n大学に漂う混沌とした感覚と、その内側にある「真面目さ」や「整然とした感覚」を両立させるため、複数の要素をコラージュによって構成。さらに、背景に埋もれないビビッドなカラーと単純な図形を組み合わせ、複雑なシェイプやテキストを配置することで、相反する要素が共存するビジュアルを制作した。",
+  "thumbnail": {
+    "src": "https://www.dropbox.com/scl/fi/zqjeoqgexg3uyfk6z0dw1/Draft-0001.png?rlkey=ooiokgecql6gv4f6du47wjak4&st=cyrx3vcx&raw=1",
+    "alt": "表紙画像"
+  },
+  "detail": {
+    "layout": "spread",
+    "media": [
+      
+    ]
+  },
+  "process": [],
+  "published": true
+}
