@@ -153,16 +153,85 @@
       if(!items.length)root.appendChild(text("p","No published notes.","empty-state"));
     }catch(err){root.replaceChildren(text("p","Could not load log.","error-note"));console.error(err);}
   }
-  async function renderInfo(){
-    const root=$("#info-root");
-    try{
-      const p=await Site.getJSON("info/profile.json");root.replaceChildren();
-      if(p.profile)root.appendChild(text("p",p.profile));
-      const sections=[["Education",p.education],["Career",p.career],["Tools",p.tools]];
-      sections.forEach(([label,values])=>{if(!Array.isArray(values)||!values.length)return;const sec=document.createElement("section");sec.className="info-section";sec.appendChild(text("h2",label));const ul=document.createElement("ul");values.forEach(v=>ul.appendChild(text("li",typeof v==="string"?v:(v.label||v.name||""))));sec.appendChild(ul);root.appendChild(sec);});
-      if(!p.profile&&!p.education?.length&&!p.career?.length&&!p.tools?.length)root.appendChild(text("p","Profile content has not been added yet.","empty-state"));
-    }catch(err){root.replaceChildren(text("p","Could not load profile.","error-note"));}
+  
+async function renderInfo() {
+  const root = $("#info-root");
+
+  try {
+    const p = await Site.getJSON("info/profile.json");
+    root.replaceChildren();
+
+    // Name and studio
+    if (p.name || p.studio) {
+      const identity = document.createElement("div");
+      identity.className = "info-identity";
+
+      if (p.name) {
+        identity.appendChild(text("h2", p.name, "info-name"));
+      }
+
+      if (p.studio) {
+        identity.appendChild(text("p", p.studio, "info-studio"));
+      }
+
+      root.appendChild(identity);
+    }
+
+    // Profile
+    if (p.profile) {
+      root.appendChild(text("p", p.profile, "info-profile"));
+    }
+
+    // Education, Career, Tools
+    const sections = [
+      ["Education", p.education],
+      ["Career", p.career],
+      ["Tools", p.tools]
+    ];
+
+    sections.forEach(([label, values]) => {
+      if (!Array.isArray(values) || !values.length) return;
+
+      const sec = document.createElement("section");
+      sec.className = "info-section";
+      sec.appendChild(text("h2", label));
+
+      const ul = document.createElement("ul");
+
+      values.forEach(v => {
+        const value = typeof v === "string"
+          ? v
+          : (v.label || v.name || v.text || "");
+
+        if (value) {
+          ul.appendChild(text("li", value));
+        }
+      });
+
+      sec.appendChild(ul);
+      root.appendChild(sec);
+    });
+
+    if (
+      !p.name &&
+      !p.studio &&
+      !p.profile &&
+      !p.education?.length &&
+      !p.career?.length &&
+      !p.tools?.length
+    ) {
+      root.appendChild(
+        text("p", "Profile content has not been added yet.", "empty-state")
+      );
+    }
+  } catch (err) {
+    console.error("Could not load profile:", err);
+    root.replaceChildren(
+      text("p", "Could not load profile.", "error-note")
+    );
   }
+}
+
   async function renderContact(){
     const root=$("#contact-root");
     try{
