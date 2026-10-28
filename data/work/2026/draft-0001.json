@@ -16,7 +16,7 @@
     "alt": "表紙画像"
   },
   "detail": {
-    "layout": "spread",
+    "layout": "full",
     "media": [
       {
         "type": "image",
