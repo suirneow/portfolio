@@ -2,14 +2,14 @@
   "name": "SHUNTO TAKAYA",
   "name_en": "SHUNTO TAKAYA",
   "studio": "suimeow",
-  "profile": "",
+  "profile": "VisualDesigner/MotionDesigner",
   "education": [
     {
-      text:"武蔵野美術大学"
+      "text":"武蔵野美術大学"
     }
   ],
   "career": [],
   "tools": [],
-  "email": "",
-  "socials": []
+  "email": "shuntotakaya[at]gmail.com",
+  "socials": ["[at]suirneow"]
 }
