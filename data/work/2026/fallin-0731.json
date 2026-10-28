@@ -20,12 +20,27 @@
     "media": [
       {
         "type": "image",
+        "src": "https://www.dropbox.com/scl/fi/f03pcy28nm4zzyewqcj85/DUSK-356.jpg?rlkey=4lz91k6jtd34mibsbcl1hy4by&st=0asv2zns&raw=1",
+        "alt": "メインビジュアル"
+      },
+      {
+        "type": "image",
         "src": "https://www.dropbox.com/scl/fi/71yf7q8qtclqqp4v12mo6/DUSK-354.jpg?rlkey=t5avk55mlntr6wt17p09q1a96&st=siz9hpax&raw=1",
         "alt": "作品画像"
       },
       {
         "type": "image",
         "src": "https://www.dropbox.com/scl/fi/1ai94iyey1eyrk35an7bj/DUSK-355.jpg?rlkey=3yk2phmukot91g30eyscrn2j4&st=my9nsaft&raw=1",
+        "alt": "作品画像"
+      },
+      {
+        "type": "image",
+        "src": "https://www.dropbox.com/scl/fi/y3w1nlmjoxr8tcepbkht9/DUSK-357.jpg?rlkey=ye818b0qxbs84h544nv0emj49&st=18asda7s&raw=1",
+        "alt": "作品画像"
+      },
+      {
+        "type": "image",
+        "src": "https://www.dropbox.com/scl/fi/hotnph8rx60bl2spv6hfp/DUSK-350.jpg?rlkey=elccban92gzipqfcetghp6m2s&st=63gbshar&raw=1",
         "alt": "作品画像"
       }
     ]
