@@ -1,0 +1,24 @@
+{
+  "id": "fallin-0731",
+  "title": "Fall in",
+  "year": 2026,
+  "date": "07",
+  "genre": ["3DCG","Motion Graphics","Installation"],
+  "role": ["Concept","3DCG","Composite","Motion Design"],
+  "caption": {
+    "screen": "Screen",
+    "technique": ["3DCG","Motion Graphics","Projection Mapping"],
+    "software": ["Adobe After Effects","Blender"]
+  },
+  "description": "雑誌「DRAFT」の創刊号の表紙および目次ページ等一部デザインを担当。",
+  "thumbnail": {
+    "src": "https://www.dropbox.com/scl/fi/f03pcy28nm4zzyewqcj85/DUSK-356.jpg?rlkey=4lz91k6jtd34mibsbcl1hy4by&st=0asv2zns&raw=1",
+    "alt": "None"
+  },
+  "detail": {
+    "layout": "full",
+    "media": ["None"]
+  },
+  "process": ["None"],
+  "published": true
+}
