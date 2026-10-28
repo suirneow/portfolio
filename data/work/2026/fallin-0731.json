@@ -17,8 +17,19 @@
   },
   "detail": {
     "layout": "full",
-    "media": ["None"]
+    "media": [
+      {
+        "type": "image",
+        "src": "https://www.dropbox.com/scl/fi/71yf7q8qtclqqp4v12mo6/DUSK-354.jpg?rlkey=t5avk55mlntr6wt17p09q1a96&st=siz9hpax&raw=1",
+        "alt": "作品画像"
+      }
+    ]
   },
-  "process": ["None"],
+  "process": [
+    {
+      "text": "01 / ここに説明を入力。"
+    }
+  ],
   "published": true
 }
+
